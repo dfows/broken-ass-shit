@@ -12,21 +12,27 @@ class MyHTMLParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         element = tag
         styling = ''
+        selektorVal = ''
+        selektor = ''
         for attr in attrs:
           if attr[0] == "class":
             element += "."+attr[1]
           if attr[0] == "id":
             element += "#"+attr[1]
           if attr[0] == "style":
-            print attr[1]
+            selektorVal = attr[1]
         self.posStakk.append(element)
+        if selektorVal:
+          for i in range(1,len(self.posStakk)):
+            selektor += self.posStakk[i]+" "
+          selektor += "{" 
+          print selektor, selektorVal, "}"
         return tag
     def handle_endtag(self, tag):
         self.posStakk.pop(-1)
         return "end"
-    def handle_data(self, data):
-        print self.posStakk
-        print "Encountered some data  :", data
+    #def handle_data(self, data):
+        #print "Encountered some data  :", data
 
 def scrapeStyles():
   # instantiate the parser and feed it some HTML
